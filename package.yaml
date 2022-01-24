@@ -13,6 +13,7 @@ description:         This lab covers list comprehensions and range syntax.
 dependencies:
 - base >= 4.7 && < 5
 - containers
+- primes
 
 library:
   source-dirs: src
