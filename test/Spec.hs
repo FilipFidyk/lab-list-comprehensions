@@ -1,11 +1,8 @@
 {-# LANGUAGE TypeApplications, LambdaCase #-}
 
-import Test.Tasty ( defaultMain, TestTree(..) )
+import Test.Tasty
 import Test.Tasty.HUnit
-
-import Test.Tasty ( TestTree(..), testGroup )
 import Test.Tasty.Muffled ( muffledMain )
-import Test.Tasty.HUnit ( testCase, (@?=) )
 import Test.Tasty.QuickCheck
 
 import Data.Function (on)
@@ -23,15 +20,15 @@ main = do
     muffledMain tests
 
 tests :: TestTree
-tests = testGroup "Tests" 
-  [ testProperty "dividesBy - is implemented correctly" 
-      $ property 
+tests = testGroup "Tests"
+  [ testProperty "dividesBy - is implemented correctly"
+      $ property
       $ forAll ((,) <$> choose (1,100) <*> choose (1,100))
       $ \(x,y) -> x `dividesBy` y === ((x `div` y) * y == x)
-  , testProperty "isPrime - is True for primes and False otherwise" 
-      $ property 
+  , testProperty "isPrime - is True for primes and False otherwise"
+      $ property
       $ forAllShrink (choose (1,100)) shrinkIntegral
-      $ \x -> isPrime x === (P.isPrime x)
+      $ \x -> isPrime x === P.isPrime x
   , testProperty "primes - constructs the infinite list of primes"
       $ property
       $ forAllShrink (choose (1,1000)) shrinkIntegral
@@ -39,8 +36,8 @@ tests = testGroup "Tests"
   , testProperty "rollOutcomes - produces the right outcomes"
       $ property
       $ forAllShrink ((,) <$> choose (1,300) <*> choose (1,300)) genericShrink
-      $ \(m,n) -> ((===) `on` sort) 
-          (rollOutcomes m n) 
+      $ \(m,n) -> ((===) `on` sort)
+          (rollOutcomes m n)
           ((+) <$> [1..m] <*> [1..n])
   , testProperty "cartProd - produces all pairs"
       $ property
@@ -57,8 +54,8 @@ tests = testGroup "Tests"
   , testProperty "rollOutcomes' - produces the same output as rollOutcomes"
       $ property
       $ forAllShrink ((,) <$> choose (1,300) <*> choose (1,300)) genericShrink
-      $ \(m,n) -> ((===) `on` sort) 
-          (rollOutcomes' m n) 
+      $ \(m,n) -> ((===) `on` sort)
+          (rollOutcomes' m n)
           (rollOutcomes m n)
   , testCase "letters - is \"abcdefghijklmnopqrstuvwxyz\""
       $ letters @?= "abcdefghijklmnopqrstuvwxyz"
@@ -84,12 +81,12 @@ tests = testGroup "Tests"
           -- This is the worst fizzbuzz implementation ever written.
           -- Learn nothing from it.
           let mif = bool id
-              fbs = [ \case{""->show x;x->x} 
-                    . (mif (++"Buzz") (x`rem`5==0)) 
-                    . (mif (++"Fizz") (x`rem`3==0)) 
-                    $ "" 
+              fbs = [ \case{""->show x;x->x}
+                    . mif (++"Buzz") (x`rem`5==0)
+                    . mif (++"Fizz") (x`rem`3==0)
+                    $ ""
                     | x <- [1..]
                     ]
           in fizzbuzzTo n === take (fromIntegral n) fbs
-  
+
   ]
