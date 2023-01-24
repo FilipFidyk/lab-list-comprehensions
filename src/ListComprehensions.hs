@@ -34,7 +34,7 @@ cartProdWith :: (a -> b -> c) -> [a] -> [b] -> [c]
 cartProdWith = error "Not implemented"
 
 
--- Implement rollOutcomes again, using the combineWith function defined above.
+-- Implement rollOutcomes again, using the cartProdWith function defined above.
 rollOutcomes' :: Int -> Int -> [Int]
 rollOutcomes' = error "Not implemented"
 
