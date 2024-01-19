@@ -6,17 +6,19 @@ import Data.List
 
 -- Returns True iff the first argument can be divided by the second with no remainder.
 dividesBy :: Integer -> Integer -> Bool
-dividesBy = error "Not implemented"
+dividesBy a b = mod a b == 0
 
 
 -- Whether or not the argument is prime.
 isPrime :: Integer -> Bool
-isPrime = error "Not implemented"
+isPrime 0 = False
+isPrime 1 = False
+isPrime n = not (or [dividesBy n x | x <- [2 .. floor (sqrt (fromIntegral n))]])
 
 
 -- The infinite list of all prime numbers.
 primes :: [Integer]
-primes = error "Not implemented"
+primes = filter isPrime [x | x <- [2 ..]]
 
 
 -- All possible outcomes of rolling two die, with number of sides m and n, including duplicates.
